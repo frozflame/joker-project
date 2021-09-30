@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
+import volkanic
+
+def hello():
+    print('Hello World!')
+
+
+cmddef = """
+hello          {{ pi.package_name }}.__main__:hello
+"""
+
+_prog = 'python3 -m {{ pi.package_name }}'
+registry = volkanic.CommandRegistry.from_cmddef(cmddef, _prog)
+
+if __name__ == '__main__':
+    registry()
