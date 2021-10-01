@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # coding: utf-8
-
 # created by joker-project
 
 import os
@@ -33,6 +32,7 @@ def _find_version():
 
 
 def _find_packages():
+    # https://packaging.python.org/guides/packaging-namespace-packages/
     {%- if pi.namespace %}
     return setuptools.find_namespace_packages(include=['{{ pi.names[0] }}.*'])
     {% else %}
