@@ -1,0 +1,56 @@
+Git:
+
+    git rev-parse --show-toplevel
+    cd "$(git rev-parse --show-toplevel)"
+
+    git rev-parse --abbrev-ref --short HEAD
+    git branch --show-current  # requires git >= 2.22
+    git rev-parse --short HEAD
+    git log HEAD -1 --date=format:'%y%m%d-%H%M%S' --pretty='%ad-%h'
+
+    https://git-scm.com/docs/pretty-formats
+
+    # unstage a file
+    git reset -- newfile.txt
+    git reset HEAD newfile.txt
+
+    # discard unstaged changes
+    git checkout -- newfile.txt
+    git checkout -- .
+
+
+Shell:
+
+    cd "$(dirname "$0")"
+
+
+HTTP Server:
+
+    python3 -m http.server 7777
+    python3 -m http.server -b 127.0.0.1 7777
+    manage.py runserver 0.0.0.0:7777
+    gunicorn -bind 127.0.0.1:7777 "example:app"
+    gunicorn -bind 127.0.0.1:7777 "example:get_application()"
+
+
+NGINX:
+
+    sudo nginx -t
+    sudo systemctl reload nginx
+    https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/examples/xsendfile/
+    https://docs.nginx.com/nginx/admin-guide/security-controls/configuring-http-basic-authentication/
+    https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
+    https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04
+    https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+
+
+JetBrains IDE SCSS Watcher:
+
+    Arguments:
+
+        --style compressed --no-cache --update $FileName$:$FileNameWithoutExtension$.min.css
+
+    Output paths to refresh:
+
+        $FileNameWithoutExtension$.min.css:$FileNameWithoutExtension$.min.css.map
+
