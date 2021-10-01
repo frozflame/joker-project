@@ -3,6 +3,7 @@
 
 import os
 import re
+
 import volkanic
 from volkanic.compat import cached_property
 
@@ -15,22 +16,25 @@ regexes = {
 
 class GlobalInterface(volkanic.GlobalInterface):
     package_name = 'joker.project'
+    _options = {'namespaced_config_path': True}
+
+    default_config = {
+        'templates': [],
+    }
 
     @cached_property
     def jinja2_env(self):
         # noinspection PyPackageRequirements
         import jinja2
-        cfg = self.conf['jinja2'].copy()
         loader = jinja2.PackageLoader(self.package_name, 'templates')
-        loader_cfg = cfg.pop('loader', None)
-        if loader_cfg:
+        searchpath = self.conf['templates']
+        if searchpath:
             loader = jinja2.ChoiceLoader([
-                jinja2.FileSystemLoader(loader_cfg, followlinks=True),
+                jinja2.FileSystemLoader(searchpath, followlinks=True),
                 loader,
             ])
-        autoescape_cfg = cfg.pop('autoescape', ['html', 'xml'])
-        autoescape = jinja2.select_autoescape(autoescape_cfg)
-        return jinja2.Environment(loader=loader, autoescape=autoescape, **cfg)
+        autoescape = jinja2.select_autoescape(['html', 'xml'])
+        return jinja2.Environment(loader=loader, autoescape=autoescape)
 
 
 class ProjectInterface:
