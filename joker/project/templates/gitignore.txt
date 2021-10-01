@@ -18,6 +18,7 @@ lib64/
 parts/
 sdist/
 var/
+node_modules/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -28,9 +29,22 @@ var/
 *.manifest
 *.spec
 
-# Installer logs
+# Logs
+*.log
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.pydevproject
+
+# Operating system files
+[Tt]humbs.db
+[Dd]esktop.ini
+*.DS_store
+.DS_store?
 
 # Unit test / coverage reports
 htmlcov/
@@ -43,9 +57,6 @@ coverage.xml
 # Translations
 *.mo
 *.pot
-
-# Django stuff:
-*.log
 
 # Sphinx documentation
 docs/_build/
