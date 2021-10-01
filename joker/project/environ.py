@@ -7,12 +7,6 @@ import re
 import volkanic
 from volkanic.compat import cached_property
 
-regexes = {
-    '.': re.compile(r'[a-z][0-9a-z]*(\.[a-z][0-9a-z]*)?$'),
-    '-': re.compile(r'[a-z][0-9a-z]*(-[a-z][0-9a-z]*)?$'),
-    '_': re.compile(r'[a-z][0-9a-z]*(_[a-z][0-9a-z]*)?$'),
-}
-
 
 class GlobalInterface(volkanic.GlobalInterface):
     package_name = 'joker.project'
@@ -38,17 +32,29 @@ class GlobalInterface(volkanic.GlobalInterface):
 
 
 class ProjectInterface:
+    _regexes = {
+        '.': re.compile(r'[a-z][0-9a-z]*(\.[a-z][0-9a-z]*)?$'),
+        '-': re.compile(r'[a-z][0-9a-z]*(-[a-z][0-9a-z]*)?$'),
+        '_': re.compile(r'[a-z][0-9a-z]*(_[a-z][0-9a-z]*)?$'),
+    }
+
     def __init__(self, name: str, parent_dir='.'):
         self.parent_dir = os.path.abspath(parent_dir)
-        for sep, regex in regexes.items():
+        self.names = []
+        for sep, regex in self._regexes.items():
             if regex.match(name):
-                self.identifier = name.replace(sep, '_')
                 self.package_name = name.replace(sep, '.')
                 self.project_name = name.replace(sep, '-')
-                self.names = self.package_name.split('.')
-                return
-        msg = f"neither a project_name, package_name nor identifier: '{name}'"
-        raise ValueError(msg)
+                self.identifier = name.replace(sep, '_')
+                self.names = name.split(sep)
+                break
+        if not self.names:
+            msg = (
+                f"neither a project_name, package_name "
+                f"nor identifier: '{name}'"
+            )
+            raise ValueError(msg)
+        self.description = f'{self.project_name} project'
 
     def __repr__(self):
         c = self.__class__.__name__
@@ -66,6 +72,10 @@ class ProjectInterface:
     @property
     def package_path(self):
         return '/'.join(self.names)
+
+    @property
+    def name_length(self) -> int:
+        return len(self.project_name)
 
     def under_project_dir(self, *paths, relative=False):
         if relative:
