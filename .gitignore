@@ -18,10 +18,13 @@ lib64/
 parts/
 sdist/
 var/
-node_modules/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Frontend
+node_modules/
+.sass-cache
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -64,7 +67,6 @@ docs/_build/
 # PyBuilder
 target/
 
-.sass-cache
 _legacy/
 _local/
 config.json5
